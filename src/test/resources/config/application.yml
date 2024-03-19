@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  mail:
+    host: localhost # overridden when docker.mailhog.enabled = true
+    port: 1025 # overridden when docker.mailhog.enabled = true
+    properties:
+      mail:
+        smtp:
+          from: no-reply@mdb-webshop.nl
+mailhog:
+  http-port: 8025 # overridden when docker.mailhog.enabled = true
+docker:
+  postgres:
+    enabled: true
+    image-version: 13
+    static-port: true
+  mailhog:
+    enabled: true

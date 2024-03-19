@@ -1,0 +1,29 @@
+server:
+  servlet:
+    context-path: /api
+    session:
+      timeout: 15m
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/webshop
+    username: webshop
+    tomcat:
+      max-wait: 2000
+      max-active: 100
+      initial-size: 10
+      default-auto-commit: false
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc.lob.non_contextual_creation: true
+    open-in-view: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog.xml
+    drop-first: false
+  sql:
+    init:
+      platform: postgresql

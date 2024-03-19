@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <option name="ACTIVE_PROFILES" value="test-data" />
+    <module name="spring-boot-playground-core" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="nl.mdb.webshop.Application" />
+    <option name="VM_PARAMETERS" value="-cp $Classpath$:/src/test/resources" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean verify -DskipTests" />
+    </method>
+  </configuration>
+</component>

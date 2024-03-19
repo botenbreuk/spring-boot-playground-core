@@ -1,0 +1,7 @@
+app:
+  config:
+    mail:
+      only-log-dont-send: false
+docker:
+  postgres:
+    static-port: false
