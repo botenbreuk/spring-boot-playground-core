@@ -16,6 +16,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,6 +26,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,12 +49,22 @@ public class CustomSecurityConfig {
     }
 
     @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
+    @Bean
     public RestAccessDeniedHandler accessDeniedHandler() {
         return new RestAccessDeniedHandler(errorHandler);
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, SessionRegistry sessionRegistry) throws Exception {
         // Set custom filters in the chain between existing spring security filters.
         http.addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class);
 
@@ -80,7 +93,9 @@ public class CustomSecurityConfig {
 
         // Set session manager. Also configures HttpSessionSecurityContextRepository for keeping track
         // of the session between calls.
-        http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+        http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .maximumSessions(-1)
+                .sessionRegistry(sessionRegistry));
 
         return http.build();
     }

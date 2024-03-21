@@ -3,6 +3,7 @@ package nl.mdb.webshop.user;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import nl.mdb.webshop.authentication.session.SessionManager;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final SessionManager sessionManager;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
@@ -39,6 +41,7 @@ public class UserService {
 
     @PreAuthorize("@userSecurityUtils.delete()")
     public void delete(User user) {
+        sessionManager.invalidate(user);
         userRepository.delete(user);
     }
 }
