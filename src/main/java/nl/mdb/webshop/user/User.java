@@ -44,8 +44,13 @@ public class User extends AbstractEntity implements RegisteredUser {
         return this.actief;
     }
 
-    public static User formToUser(UserForm form) {
+    public static User toCreateForm(UserForm form) {
+        return toUpdateForm(null, form);
+    }
+
+    public static User toUpdateForm(Long id, UserForm form) {
         User user = new User();
+        user.setId(id);
         user.setEmail(form.email);
         user.setPassword(form.password);
         user.setPhone(form.phone);
