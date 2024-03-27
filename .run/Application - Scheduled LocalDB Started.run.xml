@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Application - Scheduled LocalDB Started" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="test-data, local-db" />
+    <module name="spring-boot-playground-core" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="nl.mdb.webshop.Application" />
+    <option name="VM_PARAMETERS" value="-Xmx4096m -cp $Classpath$:/src/test/resources" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="nl.mdb.webshop.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="generate-sources" />
+      <option name="Make" enabled="true" />
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean verify -DskipTests spring-boot:build-info" />
+    </method>
+  </configuration>
+</component>
