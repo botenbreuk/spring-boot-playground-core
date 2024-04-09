@@ -2,7 +2,7 @@
   <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="ACTIVE_PROFILES" value="test-data" />
     <module name="spring-boot-playground-core" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="nl.mdb.webshop.Application" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="nl.rdb.springbootplayground.Application" />
     <option name="VM_PARAMETERS" value="-cp $Classpath$:/src/test/resources" />
     <method v="2">
       <option name="Make" enabled="true" />

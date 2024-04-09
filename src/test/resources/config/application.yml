@@ -9,7 +9,7 @@ spring:
     properties:
       mail:
         smtp:
-          from: no-reply@mdb-webshop.nl
+          from: no-reply@test.nl
 mailhog:
   http-port: 8025 # overridden when docker.mailhog.enabled = true
 docker:

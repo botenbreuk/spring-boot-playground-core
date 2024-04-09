@@ -33,7 +33,7 @@
         <appender-ref ref="CONSOLE" />
     </logger>
 
-    <logger name="nl.mdb.webshop" level="info" additivity="false">
+    <logger name="nl.rdb.springbootplayground" level="info" additivity="false">
         <appender-ref ref="CONSOLE" />
     </logger>
 
@@ -46,7 +46,7 @@
         <root level="error">
             <appender-ref ref="CONSOLE" />
         </root>
-        <logger name="nl.mdb.webshop" level="info" additivity="false">
+        <logger name="nl.rdb.springbootplayground" level="info" additivity="false">
             <appender-ref ref="CONSOLE" />
         </logger>
     </springProfile>
