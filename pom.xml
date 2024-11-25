@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.rdb.spring_boot_playground_core</groupId>
@@ -15,15 +15,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.0</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
         <java.version>21</java.version>
 
-        <testcontainers-bom.version>1.19.2</testcontainers-bom.version>
-        <guava.version>31.1-jre</guava.version>
+        <testcontainers-bom.version>1.20.4</testcontainers-bom.version>
+        <guava.version>33.3.1-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -100,21 +100,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <useTestClasspath>true</useTestClasspath>
                     <profiles>
                         <profile>test-data</profile>
                     </profiles>
-                    <directories>
-                        <directory>${project.build.testOutputDirectory}</directory>
-                    </directories>
                     <executable>true</executable>
-                    <layout>ZIP</layout>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-configuration-processor</artifactId>
-                        </exclude>
-                    </excludes>
+                    <useTestClasspath>true</useTestClasspath>
+                    <additionalClasspathElements>${project.build.testOutputDirectory}</additionalClasspathElements>
                 </configuration>
                 <executions>
                     <execution>
@@ -128,7 +119,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>9.1.0</version>
+                <version>11.1.0</version>
                 <configuration>
                     <failBuildOnCVSS>0</failBuildOnCVSS>
                     <skipProvidedScope>true</skipProvidedScope>
