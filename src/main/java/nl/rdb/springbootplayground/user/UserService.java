@@ -41,4 +41,49 @@ public class UserService {
     public void delete(User user) {
         userRepository.delete(user);
     }
+
+    public void getProj() {
+        userRepository.findJeMoederByEmail("piet@test.nl");
+        userRepository.findByLastName("van den Lange");
+    }
+
+    public void saveMultiple2() {
+        User user1 = new User();
+        user1.setEmail("user1");
+        user1.setPassword("password");
+        user1.setPhone("");
+        user1.setFirstName("");
+        user1.setLastName("");
+        user1.setRole(UserRole.ADMIN);
+        user1.setActief(true);
+
+        User user2 = new User();
+        user2.setEmail("user2");
+        user2.setPassword("password");
+        user2.setPhone("");
+        user2.setFirstName("");
+        user2.setLastName("");
+        user2.setRole(UserRole.ADMIN);
+        user2.setActief(true);
+
+        User user3 = new User();
+        user3.setEmail("user3");
+        user3.setPassword("password");
+        user3.setPhone("");
+        user3.setFirstName("");
+        user3.setLastName("");
+        user3.setRole(UserRole.ADMIN);
+        user3.setActief(true);
+
+        User user4 = new User();
+        user4.setEmail("user4");
+        user4.setPassword("password");
+        user4.setPhone("");
+        user4.setFirstName("");
+        user4.setLastName("");
+        user4.setRole(UserRole.ADMIN);
+        user4.setActief(true);
+
+        userRepository.saveAll(List.of(user1, user2, user3, user4));
+    }
 }

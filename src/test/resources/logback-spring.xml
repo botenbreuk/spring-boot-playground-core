@@ -21,7 +21,7 @@
         <appender-ref ref="CONSOLE" />
     </logger>
 
-    <logger name="org.hibernate.SQL" level="off" additivity="false">
+    <logger name="org.hibernate.SQL" level="debug" additivity="false">
         <appender-ref ref="CONSOLE" />
     </logger>
 

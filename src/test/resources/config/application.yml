@@ -15,7 +15,7 @@ mailhog:
 docker:
   postgres:
     enabled: true
-    image-version: 14
+    image-version: 17
     static-port: true
   mailhog:
     enabled: true

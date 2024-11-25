@@ -35,6 +35,11 @@ public class UserController {
                 .orElse(null);
     }
 
+    @GetMapping("/get-proj")
+    void saveMultiple() {
+        userService.getProj();
+    }
+
     @PutMapping("/{userId}")
     UserResult update(@PathVariable Long userId, @RequestBody UserForm form) {
         return Optional.of(userService.create(User.toUpdateForm(userId, form)))

@@ -19,5 +19,6 @@ public class LocalDataLoader {
     public void init() {
         // Users
         userFixtures.sjonnyb();
+        userFixtures.piet();
     }
 }
