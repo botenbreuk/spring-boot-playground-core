@@ -10,12 +10,12 @@ spring:
       mail:
         smtp:
           from: no-reply@test.nl
-mailhog:
+mailpit:
   http-port: 8025 # overridden when docker.mailhog.enabled = true
 docker:
   postgres:
     enabled: true
     image-version: 17
     static-port: true
-  mailhog:
+  mailpit:
     enabled: true

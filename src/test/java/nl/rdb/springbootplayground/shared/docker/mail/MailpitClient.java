@@ -1,11 +1,8 @@
-/*
- * Copyright (c) 2021. 42 bv (www.42.nl). All rights reserved.
- */
-
 package nl.rdb.springbootplayground.shared.docker.mail;
 
-import static nl.rdb.springbootplayground.shared.docker.mail.MailHogContainerStarter.MAILHOG_HTTP_PORT_PROPERTY;
-import static nl.rdb.springbootplayground.shared.docker.mail.MailHogContainerStarter.SPRING_MAIL_HOST_PROPERTY;
+import static nl.rdb.springbootplayground.shared.docker.mail.MailpitContainerStarter.MAILPIT_HTTP_PORT_PROPERTY;
+import static nl.rdb.springbootplayground.shared.docker.mail.MailpitContainerStarter.SPRING_MAIL_HOST_PROPERTY;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -23,15 +20,16 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
-public class MailHogClient {
+public class MailpitClient {
 
-    public static final String GET_MESSAGES = "/api/v2/messages";
+    public static final String GET_MESSAGES = "/api/v1/messages";
+    public static final String VIEW_HTML_MESSAGE = "/api/v1/message/%s";
     public static final String DELETE_MESSAGES = "/api/v1/messages";
 
     private final RestTemplate restTemplate;
 
-    public MailHogClient(Environment env) {
-        int httpPort = env.getProperty(MAILHOG_HTTP_PORT_PROPERTY, Integer.class);
+    public MailpitClient(Environment env) {
+        int httpPort = env.getProperty(MAILPIT_HTTP_PORT_PROPERTY, Integer.class);
         String host = env.getProperty(SPRING_MAIL_HOST_PROPERTY);
         MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
         jsonMessageConverter.setSupportedMediaTypes(List.of(MediaType.ALL));
@@ -41,14 +39,22 @@ public class MailHogClient {
                 .build();
     }
 
-    public List<MailHogMessage> getMessages() {
-        final ResponseEntity<MailHogMessages> response = restTemplate.getForEntity(
+    public List<MailpitMessage> getMessages() {
+        final ResponseEntity<MailpitMessages> response = restTemplate.getForEntity(
                 createUrl(GET_MESSAGES),
-                MailHogMessages.class);
-        List<MailHogMessage> messages = response.getBody().items;
-        messages.forEach(m -> log.info(m.Content.Headers.Subject.get(0)));
-        log.info("Retrieved " + messages.size() + " messages from Mailhog");
+                MailpitMessages.class);
+        List<MailpitMessage> messages = response.getBody().messages;
+        messages.forEach(m -> log.info(m.getSubject()));
+        log.info("Retrieved {} messages from Mailpit", messages.size());
         return messages;
+    }
+
+    public MailpitMessageDetails getHtmlMessage(MailpitMessage message) {
+        assertNotNull(message);
+        return restTemplate.getForEntity(
+                        createUrl(VIEW_HTML_MESSAGE.formatted(message.ID)),
+                        MailpitMessageDetails.class)
+                .getBody();
     }
 
     public Set<String> getAllRecipients() {

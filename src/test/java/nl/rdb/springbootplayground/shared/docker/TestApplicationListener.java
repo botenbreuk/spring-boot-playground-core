@@ -5,7 +5,8 @@
 package nl.rdb.springbootplayground.shared.docker;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.rdb.springbootplayground.shared.docker.mail.MailHogContainerStarter;
+import nl.rdb.springbootplayground.shared.docker.mail.MailpitContainerStarter;
+import nl.rdb.springbootplayground.shared.docker.postgres.PostgresContainerStarter;
 
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.context.ApplicationListener;
@@ -28,20 +29,20 @@ import org.springframework.core.env.Environment;
 public class TestApplicationListener implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
     public static final String DOCKER_POSTGRES_ENABLED = "docker.postgres.enabled";
-    public static final String DOCKER_MAILHOG_ENABLED = "docker.mailhog.enabled";
+    public static final String DOCKER_MAILPIT_ENABLED = "docker.mailpit.enabled";
 
     @Override
     public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
         ConfigurableEnvironment env = event.getEnvironment();
 
         log.info("<<<<< SHOULD START POSTGRES CONTAINER: {} >>>>>", isDockerPostgresEnabled(env));
-        log.info("<<<<< SHOULD START MAILHOG CONTAINER: {} >>>>>", isDockerMailhogEnabled(env));
+        log.info("<<<<< SHOULD START MAILPIT CONTAINER: {} >>>>>", isDockerMailpitEnabled(env));
 
         if (isDockerPostgresEnabled(env)) {
-            PostgresContrainerStarter.with(env).start();
+            PostgresContainerStarter.with(env).start();
         }
-        if (isDockerMailhogEnabled(env)) {
-            MailHogContainerStarter.with(env).start();
+        if (isDockerMailpitEnabled(env)) {
+            MailpitContainerStarter.with(env).start();
         }
     }
 
@@ -49,7 +50,7 @@ public class TestApplicationListener implements ApplicationListener<ApplicationE
         return env.getProperty(DOCKER_POSTGRES_ENABLED, Boolean.class, false);
     }
 
-    private boolean isDockerMailhogEnabled(Environment env) {
-        return env.getProperty(DOCKER_MAILHOG_ENABLED, Boolean.class, false);
+    private boolean isDockerMailpitEnabled(Environment env) {
+        return env.getProperty(DOCKER_MAILPIT_ENABLED, Boolean.class, false);
     }
 }

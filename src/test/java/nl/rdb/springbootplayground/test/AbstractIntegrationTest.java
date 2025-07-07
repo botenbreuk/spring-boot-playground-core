@@ -1,6 +1,6 @@
 package nl.rdb.springbootplayground.test;
 
-import nl.rdb.springbootplayground.shared.docker.mail.MailHogClient;
+import nl.rdb.springbootplayground.shared.docker.mail.MailpitClient;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,10 +15,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public abstract class AbstractIntegrationTest {
 
     @Autowired
-    protected MailHogClient mailHogClient;
+    protected MailpitClient mailpitClient;
 
     @BeforeEach
     void clearMailHogInbox() {
-        mailHogClient.deleteAll();
+        mailpitClient.deleteAll();
     }
 }

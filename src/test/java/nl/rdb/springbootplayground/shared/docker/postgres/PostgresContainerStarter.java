@@ -2,7 +2,7 @@
  * Copyright (c) 2020. 42 bv (www.42.nl). All rights reserved.
  */
 
-package nl.rdb.springbootplayground.shared.docker;
+package nl.rdb.springbootplayground.shared.docker.postgres;
 
 import static org.testcontainers.containers.PostgreSQLContainer.DEFAULT_TAG;
 import static org.testcontainers.containers.PostgreSQLContainer.IMAGE;
@@ -19,7 +19,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @Slf4j
-public class PostgresContrainerStarter {
+public class PostgresContainerStarter {
 
     public static final String DOCKER_POSTGRES_VERSION_PROPERTY = "docker.postgres.image-version";
     public static final String JDBC_USERNAME_PROPERTY = "spring.datasource.username";
@@ -30,11 +30,11 @@ public class PostgresContrainerStarter {
     private final PostgreSQLContainer container;
     private final ConfigurableEnvironment env;
 
-    static PostgresContrainerStarter with(ConfigurableEnvironment env) {
-        return new PostgresContrainerStarter(env);
+    public static PostgresContainerStarter with(ConfigurableEnvironment env) {
+        return new PostgresContainerStarter(env);
     }
 
-    private PostgresContrainerStarter(ConfigurableEnvironment env) {
+    private PostgresContainerStarter(ConfigurableEnvironment env) {
         this.env = env;
         this.container = new PostgreSQLContainer<>(getPostgresImage())
                 .withUsername(env.getRequiredProperty(JDBC_USERNAME_PROPERTY))
@@ -56,7 +56,7 @@ public class PostgresContrainerStarter {
         }
     }
 
-    PostgreSQLContainer<?> start() {
+    public PostgreSQLContainer<?> start() {
         this.container.start();
         log.info("----------------------------------------------------------------");
         log.info("| Postgres jdbc url override: {} |", overrideJdbcUrl());
