@@ -3,6 +3,7 @@ package nl.rdb.springbootplayground.config.security;
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse;
 import static org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN;
+import static org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher.withDefaults;
 
 import lombok.RequiredArgsConstructor;
 import nl.rdb.springbootplayground.config.error.GenericErrorHandler;
@@ -67,7 +68,7 @@ public class CustomSecurityConfig {
 
         // Configure logout
         http.logout(config -> config
-                .logoutRequestMatcher(new AntPathRequestMatcher("/authentication", DELETE.name()))
+                .logoutRequestMatcher(withDefaults().matcher(DELETE, "/authentication"))
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()));
 
         // Set csrf repository for CSRF/XSRF

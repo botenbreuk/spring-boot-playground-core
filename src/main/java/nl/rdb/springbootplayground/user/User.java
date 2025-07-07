@@ -1,11 +1,14 @@
 package nl.rdb.springbootplayground.user;
 
+import static nl.rdb.springbootplayground.user.UserRole.SYSTEM;
+
 import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +22,14 @@ import com.google.common.collect.Sets;
 @Entity
 @Table(name = "app_user")
 public class User extends AbstractEntity implements RegisteredUser {
+
+    @Transient
+    public static final User SYSTEM_USER = new User();
+
+    static {
+        SYSTEM_USER.setEmail("no-reply@unknown.nl");
+        SYSTEM_USER.setRole(SYSTEM);
+    }
 
     private String email;
     private String password;

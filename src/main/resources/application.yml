@@ -3,6 +3,24 @@ server:
     context-path: /api
     session:
       timeout: 15m
+  management:
+    endpoint:
+      health:
+        show-details: when_authorized
+        roles: [ 'ADMIN' ]
+    endpoints:
+      web:
+        discovery:
+          enabled: false
+        exposure:
+          include: [ "environment", "health", "info" ]
+      access:
+        default: read_only
+    metrics:
+      tags:
+        application: ${spring.application.name}
+        environment: ${app.environment.name}
+        version: @project.version@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/rdb-spring-boot

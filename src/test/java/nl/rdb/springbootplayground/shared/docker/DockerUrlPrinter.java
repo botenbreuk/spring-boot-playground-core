@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2020. 42 bv (www.42.nl). All rights reserved.
- */
-
 package nl.rdb.springbootplayground.shared.docker;
 
 import static nl.rdb.springbootplayground.shared.docker.TestApplicationListener.DOCKER_MAILPIT_ENABLED;
