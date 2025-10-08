@@ -15,7 +15,7 @@ mailpit:
 docker:
   postgres:
     enabled: true
-    image-version: 17
+    image-version: 18
     static-port: true
   mailpit:
     enabled: true

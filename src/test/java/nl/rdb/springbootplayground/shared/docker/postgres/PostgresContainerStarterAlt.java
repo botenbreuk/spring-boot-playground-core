@@ -8,7 +8,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @Slf4j
-public class PostgresDockerContainer extends PostgreSQLContainer<PostgresDockerContainer> {
+public class PostgresContainerStarterAlt extends PostgreSQLContainer<PostgresContainerStarterAlt> {
 
     public static final String JDBC_URL_PROPERTY = "spring.datasource.url";
 
@@ -17,10 +17,10 @@ public class PostgresDockerContainer extends PostgreSQLContainer<PostgresDockerC
     private static final String JDBC_PASSWORD_PROPERTY = "spring.datasource.password";
     private static final String DOCKER_POSTGRES_STATIC_PORT_PROPERTY = "docker.postgres.static-port";
 
-    public PostgresDockerContainer(ConfigurableEnvironment env) {
+    public PostgresContainerStarterAlt(ConfigurableEnvironment env) {
         super("%s:%s".formatted(IMAGE, env.getProperty(DOCKER_POSTGRES_VERSION_PROPERTY, DEFAULT_TAG)));
-        this.withUsername(env.getRequiredProperty(JDBC_USERNAME_PROPERTY))
-                .withPassword(env.getRequiredProperty(JDBC_PASSWORD_PROPERTY));
+        this.withUsername(env.getRequiredProperty(JDBC_USERNAME_PROPERTY));
+        this.withPassword(env.getRequiredProperty(JDBC_PASSWORD_PROPERTY));
 
         if (env.getProperty(DOCKER_POSTGRES_STATIC_PORT_PROPERTY, boolean.class, false)) {
             var jdbcUri = URI.create(env.getProperty(JDBC_URL_PROPERTY, "jdbc:").substring(5));
@@ -28,6 +28,7 @@ public class PostgresDockerContainer extends PostgreSQLContainer<PostgresDockerC
         }
     }
 
+    @Override
     public void start() {
         super.start();
         log.info("----------------------------------------------------------------");

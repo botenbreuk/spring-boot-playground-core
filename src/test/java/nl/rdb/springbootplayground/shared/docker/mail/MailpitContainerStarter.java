@@ -30,12 +30,11 @@ public class MailpitContainerStarter {
         return new MailpitContainerStarter(env);
     }
 
-    public GenericContainer<?> start() {
+    public void start() {
         this.container.start();
         log.info("----------------------------------------------------------------");
         log.info("| Mailpit smtp host override: {} |", overrideSmtpHostAndPort());
         log.info("----------------------------------------------------------------");
-        return this.container;
     }
 
     private String overrideSmtpHostAndPort() {

@@ -23,7 +23,7 @@ public class PostgresContainerStarter {
     public static final String JDBC_URL_PROPERTY = "spring.datasource.url";
     public static final String DOCKER_POSTGRES_STATIC_PORT_PROPERTY = "docker.postgres.static-port";
 
-    private final PostgreSQLContainer container;
+    private final PostgreSQLContainer<?> container;
     private final ConfigurableEnvironment env;
 
     public static PostgresContainerStarter with(ConfigurableEnvironment env) {
@@ -52,12 +52,11 @@ public class PostgresContainerStarter {
         }
     }
 
-    public PostgreSQLContainer<?> start() {
+    public void start() {
         this.container.start();
         log.info("----------------------------------------------------------------");
         log.info("| Postgres jdbc url override: {} |", overrideJdbcUrl());
         log.info("----------------------------------------------------------------");
-        return this.container;
     }
 
     private String getPostgresImage() {
