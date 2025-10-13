@@ -22,8 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    List<UserResult> getAllUsers() {
-        return userService.findAll().stream()
+    List<UserResult> getAllUsers(GebruikerFilter filter) {
+        return userService.findAll(filter).stream()
                 .map(UserResult::new)
                 .toList();
     }

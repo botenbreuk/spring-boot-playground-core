@@ -2,7 +2,7 @@ package nl.rdb.springbootplayground.shared.docker;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.rdb.springbootplayground.shared.docker.mail.MailpitContainerStarter;
-import nl.rdb.springbootplayground.shared.docker.postgres.PostgresContainerStarterAlt;
+import nl.rdb.springbootplayground.shared.docker.postgres.PostgresContainerStarter;
 
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.context.ApplicationListener;
@@ -35,7 +35,7 @@ public class TestApplicationListener implements ApplicationListener<ApplicationE
         log.info("<<<<< SHOULD START MAILPIT CONTAINER: {} >>>>>", isDockerMailpitEnabled(env));
 
         if (isDockerPostgresEnabled(env)) {
-            new PostgresContainerStarterAlt(env).start();
+            PostgresContainerStarter.with(env).start();
         }
         if (isDockerMailpitEnabled(env)) {
             MailpitContainerStarter.with(env).start();
