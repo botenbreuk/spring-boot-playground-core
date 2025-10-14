@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import nl.rdb.springbootplayground._testdata.fixtures.UserFixtures;
 import nl.rdb.springbootplayground.test.AbstractWebIntegrationTest;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,12 +17,29 @@ class UserControllerTest extends AbstractWebIntegrationTest {
     @Autowired
     private UserFixtures userFixtures;
 
-    @Test
-    void findAllGebruikers() throws Exception {
-        userFixtures.sjonnyb();
+    @Nested
+    class FindAll {
 
-        webClient.perform(get("/gebruikers"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)));
+        @Test
+        void findAllGebruikers() throws Exception {
+            userFixtures.sjonnyb();
+
+            webClient.perform(get("/gebruikers"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(1)));
+        }
+
+        @Test
+        void findAllGebruikers_filterByEmail() throws Exception {
+            User piet = userFixtures.piet();
+            userFixtures.sjonnyb();
+
+            webClient.perform(get("/gebruikers")
+                            .param("email", "piet")
+                    )
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(1)))
+                    .andExpect(jsonPath("$[0].email").value(piet.getEmail()));
+        }
     }
 }
