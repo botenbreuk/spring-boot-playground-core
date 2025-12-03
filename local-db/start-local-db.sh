@@ -4,7 +4,7 @@ source ./.settings.env
 echo "Check if postgresql is installed"
 echo -e "\033[33mIf postgres was not yet installed add the following to the your ~/.zshrc.\033[0m"
 echo -e "echo 'export PATH="$(brew --prefix $POSTGRES_VERSION)/bin:\$PATH"' >> ~/.zshrc \n"
-echo -e "\033[33mICreate the database using the following:\033[0m"
+echo -e "\033[33mIf datebase does not exist then create the database using the following:\033[0m"
 echo -e "initdb --locale=en_US.UTF-8 -E UTF-8 /opt/homebrew/var/$POSTGRES_VERSION \n"
 brew list $POSTGRES_VERSION > /dev/null 2>&1 || brew install ${POSTGRES_VERSION}
 
