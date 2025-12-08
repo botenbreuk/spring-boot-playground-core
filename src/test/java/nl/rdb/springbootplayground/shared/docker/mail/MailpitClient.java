@@ -10,13 +10,11 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 @Slf4j
 @Component
@@ -26,24 +24,28 @@ public class MailpitClient {
     public static final String VIEW_HTML_MESSAGE = "/api/v1/message/%s";
     public static final String DELETE_MESSAGES = "/api/v1/messages";
 
-    private final RestTemplate restTemplate;
+    private final RestClient restClient;
 
     public MailpitClient(Environment env) {
-        int httpPort = env.getProperty(MAILPIT_HTTP_PORT_PROPERTY, Integer.class);
+        Integer httpPort = env.getProperty(MAILPIT_HTTP_PORT_PROPERTY, Integer.class);
         String host = env.getProperty(SPRING_MAIL_HOST_PROPERTY);
-        MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
+
+        JacksonJsonHttpMessageConverter jsonMessageConverter = new JacksonJsonHttpMessageConverter();
         jsonMessageConverter.setSupportedMediaTypes(List.of(MediaType.ALL));
-        this.restTemplate = new RestTemplateBuilder()
-                .rootUri(String.format("http://%s:%s", host, httpPort))
-                .additionalMessageConverters(jsonMessageConverter)
+
+        this.restClient = RestClient.builder()
+                .baseUrl("http://%s:%d".formatted(host, httpPort))
+                .configureMessageConverters(converters -> converters.addCustomConverter(jsonMessageConverter))
                 .build();
     }
 
     public List<MailpitMessage> getMessages() {
-        final ResponseEntity<MailpitMessages> response = restTemplate.getForEntity(
-                createUrl(GET_MESSAGES),
-                MailpitMessages.class);
-        List<MailpitMessage> messages = response.getBody().messages;
+        final MailpitMessages response = restClient.get()
+                .uri(createUrl(GET_MESSAGES))
+                .retrieve()
+                .toEntity(MailpitMessages.class)
+                .getBody();
+        List<MailpitMessage> messages = response.messages;
         messages.forEach(m -> log.info(m.getSubject()));
         log.info("Retrieved {} messages from Mailpit", messages.size());
         return messages;
@@ -51,9 +53,9 @@ public class MailpitClient {
 
     public MailpitMessageDetails getHtmlMessage(MailpitMessage message) {
         assertNotNull(message);
-        return restTemplate.getForEntity(
-                        createUrl(VIEW_HTML_MESSAGE.formatted(message.ID)),
-                        MailpitMessageDetails.class)
+        return restClient.get().uri(createUrl(VIEW_HTML_MESSAGE.formatted(message.ID)))
+                .retrieve()
+                .toEntity(MailpitMessageDetails.class)
                 .getBody();
     }
 
@@ -64,7 +66,7 @@ public class MailpitClient {
     }
 
     public void deleteAll() {
-        restTemplate.delete(createUrl(DELETE_MESSAGES));
+        restClient.delete().uri(createUrl(DELETE_MESSAGES));
     }
 
     private String createUrl(String path, String... values) {
