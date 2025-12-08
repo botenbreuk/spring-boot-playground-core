@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.rdb.springbootplayground.config.error.GenericErrorHandler;
+import tools.jackson.databind.ObjectMapper;
 
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,10 +21,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class RestAuthenticationFilter extends OncePerRequestFilter {
     private static final String ACCOUNT_DISABLED = "Your account has been administratively disabled.";
 
     private final GenericErrorHandler errorHandler;
-    private final AntPathRequestMatcher matcher;
+    private final RequestMatcher matcher;
     private final AuthenticationManager authenticationManager;
     private final ObjectMapper objectMapper;
 

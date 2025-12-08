@@ -15,32 +15,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>4.0.0</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
         <java.version>25</java.version>
         <!-- IMPORTANT: OWASP overrides -->
-        <commons-lang3.version>3.19.0</commons-lang3.version>
-        <logback.version>1.5.19</logback.version>
         <!-- IMPORTANT: OWASP overrides -->
 
         <testcontainers-bom.version>1.21.3</testcontainers-bom.version>
         <guava.version>33.5.0-jre</guava.version>
-    </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>testcontainers-bom</artifactId>
-                <version>${testcontainers-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <dependency-check-maven>12.1.9</dependency-check-maven>
+    </properties>
 
     <dependencies>
         <!-- Spring libs -->
@@ -81,7 +69,7 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
+            <artifactId>hibernate-processor</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -105,7 +93,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
+            <artifactId>testcontainers-postgresql</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -144,7 +132,7 @@
                         </path>
                         <path>
                             <groupId>org.hibernate.orm</groupId>
-                            <artifactId>hibernate-jpamodelgen</artifactId>
+                            <artifactId>hibernate-processor</artifactId>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -153,7 +141,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>12.1.6</version>
+                <version>${dependency-check-maven}</version>
                 <configuration>
                     <failBuildOnCVSS>0</failBuildOnCVSS>
                     <skipProvidedScope>true</skipProvidedScope>

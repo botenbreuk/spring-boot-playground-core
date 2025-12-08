@@ -1,16 +1,17 @@
 package nl.rdb.springbootplayground.config.security;
 
 import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse;
 import static org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN;
 import static org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher.withDefaults;
 
 import lombok.RequiredArgsConstructor;
 import nl.rdb.springbootplayground.config.error.GenericErrorHandler;
+import tools.jackson.databind.ObjectMapper;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -25,9 +26,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -40,8 +39,8 @@ public class CustomSecurityConfig {
     private final ObjectMapper objectMapper;
 
     @Bean
-    public RestAuthenticationFilter authenticationFilter() throws Exception {
-        AntPathRequestMatcher matcher = new AntPathRequestMatcher("/authentication", HttpMethod.POST.name());
+    public RestAuthenticationFilter authenticationFilter() {
+        RequestMatcher matcher = withDefaults().matcher(POST, "/authentication");
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
         return new RestAuthenticationFilter(errorHandler, matcher, authenticationManager, objectMapper);
     }
