@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import nl.rdb.springbootplayground._testdata.fixtures.UserFixtures;
 import nl.rdb.springbootplayground.test.AbstractWebIntegrationTest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,13 @@ class UserControllerTest extends AbstractWebIntegrationTest {
 
     @Autowired
     private UserFixtures userFixtures;
+    @Autowired
+    private UserRepository userRepository;
+
+    @BeforeEach
+    void before() {
+        userRepository.deleteAll();
+    }
 
     @Nested
     class FindAll {

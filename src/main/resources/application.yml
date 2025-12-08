@@ -23,8 +23,6 @@ server:
         version: @project.version@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/rdb-spring-boot
-    username: rdb-spring-boot
     tomcat:
       max-wait: 2000
       max-active: 100

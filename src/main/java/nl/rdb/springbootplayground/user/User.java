@@ -15,8 +15,6 @@ import lombok.Setter;
 import nl.rdb.springbootplayground.config.security.user.RegisteredUser;
 import nl.rdb.springbootplayground.shared.AbstractEntity;
 
-import com.google.common.collect.Sets;
-
 @Getter
 @Setter
 @Entity
@@ -42,7 +40,7 @@ public class User extends AbstractEntity implements RegisteredUser {
 
     @Override
     public Set<String> getAuthorities() {
-        return Sets.newHashSet(this.role.toAuthority());
+        return Set.of(this.role.toAuthority());
     }
 
     @Override

@@ -2,36 +2,36 @@ package nl.rdb.springbootplayground.user;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import nl.rdb.springbootplayground.shared.querydsl.AbstractQueryDslRepository;
+import nl.rdb.springbootplayground.shared.querydsl.OptionalExpression;
 
-public record UserRepositoryImpl(EntityManager em) implements UserRepositoryCustom {
+import org.springframework.stereotype.Component;
 
-    private static final Class<User> USER = User.class;
+import com.querydsl.jpa.JPQLQuery;
+
+@Component
+public class UserRepositoryImpl extends AbstractQueryDslRepository implements UserRepositoryCustom {
+
+    private static final QUser USER = QUser.user;
+
+    public UserRepositoryImpl() {
+        super(User.class);
+    }
 
     @Override
     public List<User> findAllUsers(GebruikerFilter filter) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<User> cr = cb.createQuery(USER);
-        Root<User> root = cr.from(USER);
+        JPQLQuery<User> query = from(USER);
 
-        List<Predicate> predicates = new ArrayList<>();
-        if (isNotEmpty(filter.getEmail())) {
-            predicates.add(cb.like(root.get(User_.EMAIL), "%%%s%%".formatted(filter.getEmail())));
-        }
+        OptionalExpression.of(() -> textMatches(filter.getEmail(), USER.email))
+                .filter(() -> isNotEmpty(filter.getEmail()))
+                .andQuery(query);
 
-        if (isNotEmpty(filter.getPhonenumber())) {
-            predicates.add(cb.like(root.get(User_.PHONE), "%%%s%%".formatted(filter.getPhonenumber())));
-        }
+        OptionalExpression.of(() -> textMatches(filter.getPhonenumber(), USER.phone))
+                .filter(() -> isNotEmpty(filter.getPhonenumber()))
+                .andQuery(query);
 
-        cr.select(root).where(predicates.toArray(Predicate[]::new));
-
-        return em.createQuery(cr).getResultList();
+        return query.fetchResults().getResults();
     }
 }

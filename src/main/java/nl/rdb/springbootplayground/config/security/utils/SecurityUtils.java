@@ -20,8 +20,8 @@ public class SecurityUtils {
         return Optional.ofNullable(getContext().getAuthentication())
                 .filter(not(AnonymousAuthenticationToken.class::isInstance))
                 .map(auth -> {
-                    if (auth.getPrincipal() instanceof UserDetailsAdapter<?> adapter) {
-                        return (User) adapter.user();
+                    if (auth.getPrincipal() instanceof UserDetailsAdapter<?>(User user)) {
+                        return user;
                     } else {
                         return null;
                     }
