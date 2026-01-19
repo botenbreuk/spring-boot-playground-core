@@ -1,35 +1,39 @@
 package nl.rdb.springbootplayground.test;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-import tools.jackson.databind.ObjectMapper;
+import nl.rdb.springbootplayground._testdata.fixtures.UserFixtures;
+import nl.rdb.springbootplayground.config.security.user.UserDetailsAdapter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.web.context.WebApplicationContext;
 
-
-/**
- * Use webClient directly to issue a HttpRequest as ADMIN user with a valid csrf token.
- * Use mockMvcBuilder to configure a custom default request.
- *
- * @author bas
- */
 public abstract class AbstractWebIntegrationTest extends AbstractIntegrationTest {
 
-    protected MockMvc webClient;
     @Autowired
-    protected WebApplicationContext webApplicationContext;
+    protected UserFixtures userFixtures;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
+    protected RestTestClient client;
 
     @BeforeEach
-    public void initWebClient() {
-        webClient = webAppContextSetup(webApplicationContext)
-                .alwaysDo(log())
+    void setUp(WebApplicationContext context) {
+        client = RestTestClient.bindToApplicationContext(context)
+                .configureServer(defaultMockMvcBuilder -> defaultMockMvcBuilder
+                        .alwaysDo(log())
+                        .apply(springSecurity())
+                        .defaultRequest(get("/")
+                                .contentType(APPLICATION_JSON)
+                                .with(csrf())
+                                .with(user(new UserDetailsAdapter<>(userFixtures.admin())))
+                        )
+                )
                 .build();
     }
 }

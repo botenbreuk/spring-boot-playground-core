@@ -8,7 +8,7 @@ import static org.springframework.security.web.servlet.util.matcher.PathPatternR
 
 import lombok.RequiredArgsConstructor;
 import nl.rdb.springbootplayground.config.error.GenericErrorHandler;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,13 +36,13 @@ public class CustomSecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final GenericErrorHandler errorHandler;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     @Bean
     public RestAuthenticationFilter authenticationFilter() {
         RequestMatcher matcher = withDefaults().matcher(POST, "/authentication");
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
-        return new RestAuthenticationFilter(errorHandler, matcher, authenticationManager, objectMapper);
+        return new RestAuthenticationFilter(errorHandler, matcher, authenticationManager, jsonMapper);
     }
 
     @Bean
@@ -51,7 +51,7 @@ public class CustomSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         // Set custom filters in the chain between existing spring security filters.
         http.addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class);
 

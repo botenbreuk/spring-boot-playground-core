@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.rdb.springbootplayground.config.error.GenericErrorHandler;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +23,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,12 +35,12 @@ public class RestAuthenticationFilter extends OncePerRequestFilter {
     private final GenericErrorHandler errorHandler;
     private final RequestMatcher matcher;
     private final AuthenticationManager authenticationManager;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (matcher.matches(request)) {
-            LoginForm form = objectMapper.readValue(request.getInputStream(), LoginForm.class);
+            LoginForm form = jsonMapper.readValue(request.getInputStream(), LoginForm.class);
             log.info("Attempting to login for {}", form.username);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(form.username, form.password);
             try {

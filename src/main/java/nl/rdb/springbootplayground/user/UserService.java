@@ -17,6 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
+    @PreAuthorize("@userSecurityUtils.findAll()")
     public List<User> findAll(GebruikerFilter filter) {
         return userRepository.findAllUsers(filter);
     }

@@ -22,7 +22,7 @@ import com.querydsl.jpa.JPQLQuery;
 
 public abstract class AbstractQueryDslRepository extends QuerydslRepositorySupport {
 
-    public AbstractQueryDslRepository(Class<?> domainClass) {
+    protected AbstractQueryDslRepository(Class<?> domainClass) {
         super(domainClass);
     }
 

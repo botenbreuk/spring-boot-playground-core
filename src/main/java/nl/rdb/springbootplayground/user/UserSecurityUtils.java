@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserSecurityUtils {
 
+    public boolean findAll() {
+        return true;
+    }
+
     public boolean create() {
         return SecurityUtils.isAdmin();
     }
