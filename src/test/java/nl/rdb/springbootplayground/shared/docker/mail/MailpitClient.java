@@ -66,7 +66,9 @@ public class MailpitClient {
     }
 
     public void deleteAll() {
-        restClient.delete().uri(createUrl(DELETE_MESSAGES));
+        restClient.delete().uri(createUrl(DELETE_MESSAGES))
+                .retrieve()
+                .toBodilessEntity();
     }
 
     private String createUrl(String path, String... values) {

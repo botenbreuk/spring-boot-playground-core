@@ -90,7 +90,7 @@ public class DockerConfig {
         return registry -> {
             registry.add("spring.mail.host", mailpitContainer::getHost);
             registry.add("spring.mail.port", () -> mailpitContainer.getMappedPort(MAILPIT_SMTP_PORT));
-            registry.add("mailpit.web.port", () -> mailpitContainer.getMappedPort(MAILPIT_WEB_PORT));
+            registry.add("mailpit.http-port", () -> mailpitContainer.getMappedPort(MAILPIT_WEB_PORT));
         };
     }
 }
