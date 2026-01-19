@@ -4,4 +4,4 @@ app:
       only-log-dont-send: false
 docker:
   postgres:
-    static-port: false
+    static-port:

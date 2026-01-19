@@ -16,6 +16,6 @@ docker:
   postgres:
     enabled: true
     image-version: 18
-    static-port: true
+    static-port: 5432
   mailpit:
     enabled: true

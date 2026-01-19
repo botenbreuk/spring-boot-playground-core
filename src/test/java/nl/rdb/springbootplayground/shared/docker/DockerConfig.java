@@ -26,14 +26,13 @@ public class DockerConfig {
     public static final String DOCKER_POSTGRES_ENABLED = "docker.postgres.enabled";
     public static final String DOCKER_MAILPIT_ENABLED = "docker.mailpit.enabled";
 
-    public static final int DOCKER_POSTGRES_STATIC_PORT = 5432;
     public static final int MAILPIT_SMTP_PORT = 1025;
     public static final int MAILPIT_WEB_PORT = 8025;
 
     @Value("${docker.postgres.image-version}")
     private String dockerPostgresImageVersion;
-    @Value("${docker.postgres.static-port}")
-    private boolean postgresStaticPortEnabled;
+    @Value("${docker.postgres.static-port:#{null}}")
+    private Integer postgresStaticPort;
     @Value("${spring.datasource.username}")
     private String username;
     @Value("${spring.datasource.password}")
@@ -50,12 +49,12 @@ public class DockerConfig {
                 .withEnv("TZ", "Europe/Amsterdam")
                 .withEnv("PGTZ", "Europe/Amsterdam");
 
-        if (postgresStaticPortEnabled) {
+        if (postgresStaticPort != null) {
             container.withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
                     new HostConfig().withPortBindings(
                             new PortBinding(
-                                    bindPort(DOCKER_POSTGRES_STATIC_PORT),
-                                    new ExposedPort(DOCKER_POSTGRES_STATIC_PORT))
+                                    bindPort(postgresStaticPort),
+                                    new ExposedPort(postgresStaticPort))
                     )
             ));
         }
