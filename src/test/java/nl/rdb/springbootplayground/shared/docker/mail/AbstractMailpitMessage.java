@@ -1,29 +1,40 @@
 package nl.rdb.springbootplayground.shared.docker.mail;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.Getter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Getter
 public abstract class AbstractMailpitMessage {
 
-    public String ID;
-    public String MessageID;
-    public MailpitRecipient From;
-    public List<MailpitRecipient> To;
-    public List<MailpitRecipient> Cc;
-    public List<MailpitRecipient> Bcc;
-    public List<MailpitRecipient> ReplyTo;
-    @Getter
-    public String Subject;
-    public List<String> Tags;
-    public int Size;
+    @JsonProperty("ID")
+    private String id;
+    @JsonProperty("MessageID")
+    private String messageId;
+    @JsonProperty("From")
+    private MailpitRecipient from;
+    @JsonProperty("To")
+    private List<MailpitRecipient> to;
+    @JsonProperty("Cc")
+    private List<MailpitRecipient> cc;
+    @JsonProperty("Bcc")
+    private List<MailpitRecipient> bcc;
+    @JsonProperty("ReplyTo")
+    private List<MailpitRecipient> replyTo;
+    @JsonProperty("Subject")
+    private String subject;
+    @JsonProperty("Tags")
+    private List<String> tags;
+    @JsonProperty("Size")
+    private int size;
 
     public List<String> getRecipientsTo() {
-        return To.stream().map(MailpitRecipient::getEmail).collect(Collectors.toList());
+        return this.to.stream().map(MailpitRecipient::getEmail).toList();
     }
 
     public List<String> getRecipientsCc() {
-        return Cc.stream().map(MailpitRecipient::getEmail).collect(Collectors.toList());
+        return this.cc.stream().map(MailpitRecipient::getEmail).toList();
     }
 }

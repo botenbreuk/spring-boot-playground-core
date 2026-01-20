@@ -2,12 +2,17 @@ package nl.rdb.springbootplayground.shared.docker.mail;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MailpitMessages {
 
-    public int messagesCount;
-    public int messagesUnread;
-    public int start;
-    public int total;
-    public int unread;
-    public List<MailpitMessage> messages;
+    private int messagesCount;
+    private int messagesUnread;
+    private int start;
+    private int total;
+    private int unread;
+    private List<MailpitMessage> messages;
 }

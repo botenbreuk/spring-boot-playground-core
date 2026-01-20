@@ -26,6 +26,10 @@ public class DockerConfig {
     public static final String DOCKER_POSTGRES_ENABLED = "docker.postgres.enabled";
     public static final String DOCKER_MAILPIT_ENABLED = "docker.mailpit.enabled";
 
+    public static final String SPRING_MAIL_HOST_PROPERTY = "spring.mail.host";
+    public static final String SPRING_MAIL_PORT_PROPERTY = "spring.mail.port";
+    public static final String MAILPIT_HTTP_PORT_PROPERTY = "mailpit.http-port";
+
     public static final int MAILPIT_SMTP_PORT = 1025;
     public static final int MAILPIT_WEB_PORT = 8025;
 
@@ -87,9 +91,9 @@ public class DockerConfig {
     @ConditionalOnBooleanProperty(DOCKER_MAILPIT_ENABLED)
     DynamicPropertyRegistrar mailpitProperties(GenericContainer<?> mailpitContainer) {
         return registry -> {
-            registry.add("spring.mail.host", mailpitContainer::getHost);
-            registry.add("spring.mail.port", () -> mailpitContainer.getMappedPort(MAILPIT_SMTP_PORT));
-            registry.add("mailpit.http-port", () -> mailpitContainer.getMappedPort(MAILPIT_WEB_PORT));
+            registry.add(SPRING_MAIL_HOST_PROPERTY, mailpitContainer::getHost);
+            registry.add(SPRING_MAIL_PORT_PROPERTY, () -> mailpitContainer.getMappedPort(MAILPIT_SMTP_PORT));
+            registry.add(MAILPIT_HTTP_PORT_PROPERTY, () -> mailpitContainer.getMappedPort(MAILPIT_WEB_PORT));
         };
     }
 }

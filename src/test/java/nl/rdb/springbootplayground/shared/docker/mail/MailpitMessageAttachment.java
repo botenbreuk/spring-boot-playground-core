@@ -1,10 +1,22 @@
 package nl.rdb.springbootplayground.shared.docker.mail;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Getter
+@Setter
 public class MailpitMessageAttachment {
 
-    public String ContentID;
-    public String ContentType;
-    public String FileName;
-    public String PartID;
-    public int Size;
+    @JsonProperty("ContentID")
+    private String contentId;
+    @JsonProperty("ContentType")
+    private String contentType;
+    @JsonProperty("FileName")
+    private String fileName;
+    @JsonProperty("PartID")
+    private String partId;
+    @JsonProperty("Size")
+    private int size;
 }

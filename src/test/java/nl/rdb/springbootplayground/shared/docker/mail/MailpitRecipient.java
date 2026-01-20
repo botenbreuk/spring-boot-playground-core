@@ -1,11 +1,20 @@
 package nl.rdb.springbootplayground.shared.docker.mail;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Getter
+@Setter
 public class MailpitRecipient {
 
-    public String Name;
-    public String Address;
+    @JsonProperty("Name")
+    private String name;
+    @JsonProperty("Address")
+    private String address;
 
     public String getEmail() {
-        return this.Address;
+        return this.address;
     }
 }
