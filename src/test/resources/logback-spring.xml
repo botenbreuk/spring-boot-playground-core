@@ -2,7 +2,6 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%magenta(%d{dd-MM-yyyy HH:mm:ss.SSS}) %highlight(%-5p) %yellow([%-10.10t]) %green(%60.60c:%-3L) %m%n</pattern>
-            <!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
         </encoder>
     </appender>
 
@@ -10,41 +9,19 @@
         <appender-ref ref="CONSOLE" />
     </root>
 
-    <logger name="liquibase.executor.jvm.JdbcExecutor" level="off" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
-    <logger name="liquibase.changelog.ChangeSet" level="off" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="org.hibernate.SQL" level="off" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="off" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="org.springframework.web" level="off" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <logger name="nl.rdb.springbootplayground" level="info" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
+    <logger name="liquibase.executor.jvm.JdbcExecutor" level="off" />
+    <logger name="liquibase.changelog.ChangeSet" level="off" />
+    <logger name="org.hibernate.SQL" level="off" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="off" />
+    <logger name="org.springframework.web" level="off" />
+    <logger name="nl.rdb.springbootplayground" level="info" />
 
     <!-- Enable this for logging the endpoint annotation errors -->
-    <logger name="org.springframework.web.servlet.mvc.method.annotation" level="off" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation" level="off" />
 
     <springProfile name="unit-test">
-        <root level="error">
-            <appender-ref ref="CONSOLE" />
-        </root>
-        <logger name="nl.rdb.springbootplayground" level="info" additivity="false">
-            <appender-ref ref="CONSOLE" />
-        </logger>
+        <logger name="nl.rdb.springbootplayground" level="info" />
+        <!-- set to debug if test web request logging is desired -->
+        <logger name="org.springframework.test.web.servlet.result" level="info" />
     </springProfile>
-
 </configuration>
