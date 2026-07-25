@@ -99,13 +99,22 @@ public class TimeLogger {
             log.info("{} > Started: List {} of the {} lists for {}", name, i + 1, total, message);
             function.accept(partitions.get(i));
             stopWatch.stop();
-            log.info("{} > Finished: List {} of the {} lists for {} took {}ms", name, i + 1, total, message, stopWatch.getDuration());
+            log.info("{} > Finished: List {} of the {} lists for {} took {}ms", name, i + 1, total, message, stopWatch.getDuration().toMillis());
         }
     }
 
     public static <T> void logTimeStartFinish(String message, List<List<T>> partitions, Consumer<List<T>> function) {
         CalledByClassMethod calledBy = new CalledByClassMethod();
         logTimeStartFinish(calledBy.getShortClass(), calledBy.getClassMethod(message), partitions, function);
+    }
+
+    public static <T> void logTimeStartFinish(String message, List<T> items, Consumer<List<T>> function, int count) {
+        CalledByClassMethod calledBy = new CalledByClassMethod();
+        StopWatch stopWatch = StopWatch.createStarted();
+        log.info("{} > Started: List {} for {}", calledBy.getShortClass(), count, message);
+        function.accept(items);
+        stopWatch.stop();
+        log.info("{} > Finished: List {} for {} took {}ms", calledBy.getShortClass(), count, message, stopWatch.getDuration().toMillis());
     }
 
     public static void logStartFinish(String name, String message, Runnable function) {
@@ -184,12 +193,12 @@ public class TimeLogger {
 
         static void stopTime(StopWatch stopWatch, String name, String message) {
             stopWatch.stop();
-            log.info("{} > Finished: {} took {}ms", name, message, stopWatch.getDuration());
+            log.info("{} > Finished: {} took {}ms", name, message, stopWatch.getDuration().toMillis());
         }
 
         static void duration(String name, String message, StopWatch stopWatch) {
             stopWatch.stop();
-            log.info("{} > {} took {}ms", name, message, stopWatch.getDuration());
+            log.info("{} > {} took {}ms", name, message, stopWatch.getDuration().toMillis());
         }
     }
 }

@@ -58,6 +58,7 @@ public class CustomSecurityConfig {
         // Set paths that needs special or no security.
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers("/authentication").permitAll()
+                .requestMatchers("/authentication/current").permitAll()
                 .anyRequest().authenticated());
 
         // Handlers for when authentication goes wrong.

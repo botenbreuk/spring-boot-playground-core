@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     @PostMapping
-    public nl.rdb.springbootplayground.authentication.AuthResult authenticate() {
+    public AuthResult authenticate() {
         return current();
     }
 
     @GetMapping("/current")
-    public nl.rdb.springbootplayground.authentication.AuthResult current() {
-        return new nl.rdb.springbootplayground.authentication.AuthResult(new UserResult(getCurrent()));
+    public AuthResult current() {
+        return new AuthResult(new UserResult(getCurrent()));
     }
 
     private User getCurrent() {
