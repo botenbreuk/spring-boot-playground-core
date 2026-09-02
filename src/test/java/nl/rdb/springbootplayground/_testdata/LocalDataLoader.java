@@ -18,6 +18,7 @@ public class LocalDataLoader {
     @PostConstruct
     public void init() {
         // Users
+        userFixtures.admin();
         userFixtures.sjonnyb();
     }
 }

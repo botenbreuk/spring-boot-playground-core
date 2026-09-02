@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import nl.rdb.springbootplayground.user.mapper.UserMapper;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/gebruikers")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -24,25 +25,25 @@ public class UserController {
     @GetMapping
     List<UserResult> getAllUsers(GebruikerFilter filter) {
         return userService.findAll(filter).stream()
-                .map(UserResult::new)
+                .map(UserMapper.INSTANCE::userToUserResult)
                 .toList();
     }
 
     @PostMapping
     UserResult create(@RequestBody UserForm form) {
         return Optional.of(userService.create(User.toCreateForm(form)))
-                .map(UserResult::new)
+                .map(UserMapper.INSTANCE::userToUserResult)
                 .orElse(null);
     }
 
     @PutMapping("/{userId}")
     UserResult update(@PathVariable Long userId, @RequestBody UserForm form) {
-        return Optional.of(userService.create(User.toUpdateForm(userId, form)))
-                .map(UserResult::new)
+        return Optional.of(userService.update(User.toUpdateForm(userId, form)))
+                .map(UserMapper.INSTANCE::userToUserResult)
                 .orElse(null);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{user}")
     void delete(@PathVariable User user) {
         userService.delete(user);
     }

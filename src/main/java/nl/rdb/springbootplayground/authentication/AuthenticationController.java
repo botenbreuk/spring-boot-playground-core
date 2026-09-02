@@ -5,9 +5,9 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 
 import java.util.Optional;
 
+import nl.rdb.springbootplayground.authentication.mapper.AuthMapper;
 import nl.rdb.springbootplayground.config.security.user.UserDetailsAdapter;
 import nl.rdb.springbootplayground.user.User;
-import nl.rdb.springbootplayground.user.UserResult;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,7 @@ public class AuthenticationController {
 
     @GetMapping("/current")
     public AuthResult current() {
-        return new AuthResult(new UserResult(getCurrent()));
+        return AuthMapper.INSTANCE.userToAuthResult(getCurrent());
     }
 
     private User getCurrent() {

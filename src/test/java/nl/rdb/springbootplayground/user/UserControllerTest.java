@@ -25,7 +25,7 @@ class UserControllerTest extends AbstractWebIntegrationTest {
             userFixtures.sjonnyb();
 
             client.get()
-                    .uri("/gebruikers")
+                    .uri("/users")
                     .exchange()
                     .expectStatus().isOk()
                     .expectBody()
@@ -39,7 +39,7 @@ class UserControllerTest extends AbstractWebIntegrationTest {
 
             client.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/gebruikers")
+                            .path("/users")
                             .queryParam("email", "piet")
                             .build()
                     )

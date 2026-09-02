@@ -30,6 +30,7 @@ public class User extends AbstractEntity implements RegisteredUser {
     }
 
     private String email;
+    private String username;
     private String password;
     private String phone;
     private String firstName;
@@ -45,7 +46,7 @@ public class User extends AbstractEntity implements RegisteredUser {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override
@@ -61,6 +62,7 @@ public class User extends AbstractEntity implements RegisteredUser {
         User user = new User();
         user.setId(id);
         user.setEmail(form.email);
+        user.setUsername(form.username);
         user.setPassword(form.password);
         user.setPhone(form.phone);
         user.setFirstName(form.firstName);

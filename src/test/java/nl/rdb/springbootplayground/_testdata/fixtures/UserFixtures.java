@@ -19,7 +19,8 @@ public class UserFixtures {
     private User base() {
         User user = new User();
         user.setEmail("admin@test.nl");
-        user.setPassword(passwordEncoder.encode("Welkom42!!"));
+        user.setUsername("admin");
+        user.setPassword(passwordEncoder.encode("Welkom123!!"));
         user.setPhone("+31612121212");
         user.setFirstName("Sjonny");
         user.setLastName("Bever");
@@ -37,6 +38,7 @@ public class UserFixtures {
     public User sjonnyb() {
         User user = base();
         user.setEmail("sjonnyb@test.nl");
+        user.setUsername("sjonnyb");
         return userRepository.save(user);
     }
 

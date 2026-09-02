@@ -6,7 +6,6 @@ import static org.springframework.util.ReflectionUtils.findField;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import nl.rdb.springbootplayground.Application;
 import nl.rdb.springbootplayground.utils.Classes;
@@ -28,8 +27,8 @@ public class EnumController {
                     if (!componentClass.isAnnotationPresent(EnumIgnored.class)) {
                         registry.put(componentClass.getSimpleName(), stream(componentClass.getEnumConstants())
                                 .filter(enumName -> !findField(componentClass, enumName.name()).isAnnotationPresent(EnumIgnored.class))
-                                .map(SystemEnumResult::new)
-                                .collect(Collectors.toList()));
+                                .map(EnumResult::new)
+                                .toList());
                     }
                 });
     }
