@@ -45,6 +45,7 @@ public class UserFixtures {
     public User piet() {
         User user = base();
         user.setEmail("piet@test.nl");
+        user.setUsername("pietje");
         user.setFirstName("Piet");
         user.setLastName("van den Lange");
         return userRepository.save(user);

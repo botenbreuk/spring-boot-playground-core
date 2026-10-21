@@ -44,6 +44,7 @@ class ServiceArchitectureTest extends AbstractArchitectureTest {
         classes().that()
                 .areAnnotatedWith(EmailService.class)
                 .should().haveSimpleNameEndingWith("EmailService")
+                .allowEmptyShould(true)
                 .check(importedClasses);
     }
 

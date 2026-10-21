@@ -1,10 +1,9 @@
 package nl.rdb.springbootplayground.user;
 
 import nl.rdb.springbootplayground.config.security.utils.SecurityUtils;
+import nl.rdb.springbootplayground.shared.security.annotation.SecurityUtil;
 
-import org.springframework.stereotype.Component;
-
-@Component
+@SecurityUtil
 public class UserSecurityUtils {
 
     public boolean findAll() {

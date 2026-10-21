@@ -1,17 +1,16 @@
 package nl.rdb.springbootplayground.user;
 
 import java.util.List;
-import java.util.Optional;
 
+import io.beanmapper.BeanMapper;
+import io.beanmapper.spring.web.MergedForm;
 import lombok.RequiredArgsConstructor;
-import nl.rdb.springbootplayground.user.mapper.UserMapper;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,26 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final BeanMapper beanMapper;
 
     @GetMapping
     List<UserResult> getAllUsers(GebruikerFilter filter) {
-        return userService.findAll(filter).stream()
-                .map(UserMapper.INSTANCE::userToUserResult)
-                .toList();
+        return beanMapper.map(userService.findAll(filter), UserResult.class);
     }
 
     @PostMapping
-    UserResult create(@RequestBody UserForm form) {
-        return Optional.of(userService.create(User.toCreateForm(form)))
-                .map(UserMapper.INSTANCE::userToUserResult)
-                .orElse(null);
+    UserResult create(@MergedForm(UserForm.class) User user) {
+        User created = userService.create(user);
+        return beanMapper.map(created, UserResult.class);
     }
 
-    @PutMapping("/{userId}")
-    UserResult update(@PathVariable Long userId, @RequestBody UserForm form) {
-        return Optional.of(userService.update(User.toUpdateForm(userId, form)))
-                .map(UserMapper.INSTANCE::userToUserResult)
-                .orElse(null);
+    @PutMapping("/{user}")
+    UserResult update(@MergedForm(value = UserForm.class, mergeId = "user") User user) {
+        User updated = userService.update(user);
+        return beanMapper.map(updated, UserResult.class);
     }
 
     @DeleteMapping("/{user}")

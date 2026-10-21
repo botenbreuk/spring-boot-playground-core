@@ -7,7 +7,6 @@
     <groupId>nl.rdb.spring_boot_playground_core</groupId>
     <artifactId>spring-boot-playground-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
     <name>spring-boot-playground-core</name>
     <description>spring-boot-playground-core</description>
@@ -22,15 +21,21 @@
     <properties>
         <java.version>25</java.version>
         <!-- IMPORTANT: OWASP overrides -->
+        <jackson-bom.version>3.2.3</jackson-bom.version>
+        <logback.version>1.6.5</logback.version>
+        <tomcat.version>11.0.27</tomcat.version>
+        <hibernate.version>7.4.13.Final</hibernate.version>
+        <hibernate-validator.version>9.1.5.Final</hibernate-validator.version>
+        <postgresql.version>42.7.14</postgresql.version>
         <!-- IMPORTANT: OWASP overrides -->
 
-        <org.mapstruct.version>1.6.3</org.mapstruct.version>
-        <guava.version>33.7.1-jre</guava.version>
+        <beanmapper.version>7.0.4</beanmapper.version>
+        <guava.version>33.7.2-jre</guava.version>
         <jsoup.version>1.23.2</jsoup.version>
-        <apache-tika.version>4.0.0</apache-tika.version>
-        <openfeign-querydsl.version>7.6</openfeign-querydsl.version>
+        <apache-tika.version>4.1.0</apache-tika.version>
+        <openfeign-querydsl.version>7.7</openfeign-querydsl.version>
 
-        <archunit.version>1.5.0</archunit.version>
+        <archunit.version>1.5.1</archunit.version>
 
         <dependency-check-maven.version>13.0.0</dependency-check-maven.version>
     </properties>
@@ -77,9 +82,9 @@
 
         <!-- Libs -->
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
+            <groupId>io.beanmapper</groupId>
+            <artifactId>beanmapper-spring-boot-starter</artifactId>
+            <version>${beanmapper.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -176,11 +181,6 @@
                             <artifactId>querydsl-apt</artifactId>
                             <classifier>jakarta</classifier>
                             <version>${openfeign-querydsl.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

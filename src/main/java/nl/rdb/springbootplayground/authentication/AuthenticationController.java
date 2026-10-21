@@ -5,7 +5,8 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 
 import java.util.Optional;
 
-import nl.rdb.springbootplayground.authentication.mapper.AuthMapper;
+import io.beanmapper.BeanMapper;
+import lombok.RequiredArgsConstructor;
 import nl.rdb.springbootplayground.config.security.user.UserDetailsAdapter;
 import nl.rdb.springbootplayground.user.User;
 
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/authentication")
 public class AuthenticationController {
+
+    private final BeanMapper beanMapper;
 
     @PostMapping
     public AuthResult authenticate() {
@@ -26,7 +30,7 @@ public class AuthenticationController {
 
     @GetMapping("/current")
     public AuthResult current() {
-        return AuthMapper.INSTANCE.userToAuthResult(getCurrent());
+        return beanMapper.map(getCurrent(), AuthResult.class);
     }
 
     private User getCurrent() {
