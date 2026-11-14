@@ -14,5 +14,13 @@ Via command:
 mvn clean spring-boot:run
 ```
 
+or
+
+```shell
+mvn clean spring-boot:test-run
+```
+
 Via Intellij:
-Configurations -> Application -> run
+Configurations → Application → run
+or
+Configurations → Application - Via test folder → run
