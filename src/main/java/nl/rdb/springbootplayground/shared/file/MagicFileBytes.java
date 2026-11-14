@@ -20,7 +20,7 @@ public class MagicFileBytes {
             "application/zip", FileType.ZIP
     );
 
-    private static byte[] readIdentifyingBytes(InputStream inputStream) throws IOException {
+    public static byte[] readIdentifyingBytes(InputStream inputStream) throws IOException {
         byte[] bytes = new byte[12];
 
         int i = 0;

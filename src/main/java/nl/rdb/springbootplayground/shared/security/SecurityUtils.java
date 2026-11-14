@@ -8,6 +8,7 @@ import nl.rdb.springbootplayground.config.security.AuthenticationAdapter;
 import nl.rdb.springbootplayground.config.security.user.UserDetailsAdapter;
 import nl.rdb.springbootplayground.shared.security.annotation.SecurityUtil;
 import nl.rdb.springbootplayground.user.User;
+import nl.rdb.springbootplayground.user.UserRole;
 
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,10 @@ public record SecurityUtils() {
         } finally {
             getContext().setAuthentication(auth);
         }
+    }
+
+    public static boolean isSuperAdmin() {
+        return getCurrentUser().getRole() == UserRole.ADMIN;
     }
 
     public static User getCurrentUser() {
